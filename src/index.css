@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+/* Palette and fonts. Change a color here and the whole app follows. */
+@theme {
+  --color-ink: #1f1b3d;
+  --color-brand: #5b4bff;
+  --color-sun: #ffc72c;
+  --color-mint: #25b98a;
+  --color-paper: #f5f3ff;
+  --color-coral: #e5484d;
+  --font-display: "Fredoka", ui-rounded, system-ui, sans-serif;
+  --font-sans: "Nunito", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Reusable pieces, so screens stay short. */
+.card {
+  @apply rounded-2xl border-2 border-ink bg-white p-4 shadow-[4px_4px_0_0_var(--color-ink)];
+}
+
+.btn {
+  @apply inline-flex min-h-12 items-center justify-center rounded-xl border-2 border-ink px-5 font-display text-lg font-semibold active:translate-y-px disabled:opacity-50;
+}
+
+.btn-primary {
+  @apply bg-brand text-white shadow-[3px_3px_0_0_var(--color-ink)];
+}
+
+.btn-sun {
+  @apply bg-sun text-ink shadow-[3px_3px_0_0_var(--color-ink)];
+}
+
+.btn-plain {
+  @apply bg-white text-ink;
+}
+
+.input {
+  @apply min-h-12 w-full rounded-xl border-2 border-ink bg-white px-4 text-base outline-none focus:ring-4 focus:ring-brand/30;
+}
+
+.label {
+  @apply mb-1 block text-sm font-bold;
+}
