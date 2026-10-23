@@ -16,13 +16,21 @@ const TABS: { id: Tab; label: string; icon: IconName }[] = [
 ]
 
 // The app frame: current page on top, five tabs along the bottom.
-export default function Shell({ family, userId }: { family: Family; userId: string }) {
+export default function Shell({
+  family,
+  userId,
+  onFamilyChanged,
+}: {
+  family: Family
+  userId: string
+  onFamilyChanged: () => void
+}) {
   const [tab, setTab] = useState<Tab>('home')
 
   return (
     <div className="mx-auto min-h-full max-w-xl">
       <main className="p-4 pb-32 pt-[max(1rem,env(safe-area-inset-top))]">
-        {tab === 'home' && <Home family={family} userId={userId} />}
+        {tab === 'home' && <Home family={family} userId={userId} onFamilyChanged={onFamilyChanged} />}
         {tab === 'tree' && (
           <ComingSoon
             title="Family Tree"

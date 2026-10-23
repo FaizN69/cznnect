@@ -26,6 +26,7 @@ docs/PLAN.md              architecture, data model, stages
 2. Authentication > Sign In / Providers > Email: turn **Confirm email** off. Otherwise each cousin has to wait for a confirmation email, and the free email limit is very small.
 3. SQL Editor > New query. Open `supabase/01_accounts.sql` in this repo, copy all of it, paste it in, and press **Run**. It should say success.
 4. Project Settings > API: copy the **Project URL** and the **anon / publishable key**.
+5. Run `supabase/02_member_management.sql` the same way (new query, paste, Run). It adds the owner tools: remove a member, leave a family, and get a new invite code.
 
 **2. Put the keys in the app**
 
@@ -53,6 +54,12 @@ npm install
 npm run dev
 npm run typecheck
 ```
+
+## Who can do what
+
+- **Owner** (the person who created the family): remove members, get a new invite code. The owner cannot be removed and cannot leave.
+- **Member**: see everyone in the family, edit their own profile, leave the family.
+- Adding people is done with the invite code. A removed person can only rejoin with the code, so get a new one after removing someone.
 
 ## Next
 

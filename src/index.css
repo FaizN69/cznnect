@@ -177,6 +177,15 @@
     background: var(--surface-2);
   }
 
+  .btn-danger {
+    background: var(--danger);
+    color: var(--surface);
+  }
+
+  .btn-danger:hover:not(:disabled) {
+    filter: brightness(1.08);
+  }
+
   .input {
     width: 100%;
     min-height: 3rem;

@@ -49,5 +49,5 @@ export default function Authed({ userId }: { userId: string }) {
 
   if (family === undefined) return <Splash />
   if (family === null) return <FamilySetup onDone={load} />
-  return <Shell family={family} userId={userId} />
+  return <Shell family={family} userId={userId} onFamilyChanged={load} />
 }
