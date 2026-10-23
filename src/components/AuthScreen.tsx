@@ -2,6 +2,23 @@ import { useState, type FormEvent } from 'react'
 import { supabase } from '../supabase'
 import Logo from './Logo'
 
+// Gives up after 20 seconds so the button never stays stuck on "One moment...".
+function withTimeout<T>(p: PromiseLike<T>, ms = 20000): Promise<T> {
+  return new Promise<T>((resolve, reject) => {
+    const id = setTimeout(() => reject(new Error('timeout')), ms)
+    Promise.resolve(p).then(
+      (v) => {
+        clearTimeout(id)
+        resolve(v)
+      },
+      (err) => {
+        clearTimeout(id)
+        reject(err)
+      },
+    )
+  })
+}
+
 export default function AuthScreen() {
   const [mode, setMode] = useState<'in' | 'up'>('in')
   const [name, setName] = useState('')
@@ -14,20 +31,33 @@ export default function AuthScreen() {
     e.preventDefault()
     setBusy(true)
     setMsg(null)
-    if (mode === 'up') {
-      const { data, error } = await supabase.auth.signUp({
-        email: email.trim(),
-        password,
-        options: { data: { display_name: name.trim() } },
+    try {
+      if (mode === 'up') {
+        const { data, error } = await withTimeout(
+          supabase.auth.signUp({
+            email: email.trim(),
+            password,
+            options: { data: { display_name: name.trim() } },
+          }),
+        )
+        if (error) setMsg({ kind: 'error', text: error.message })
+        else if (!data.session)
+          setMsg({ kind: 'info', text: 'Account created. Check your email to confirm it, then sign in.' })
+      } else {
+        const { error } = await withTimeout(
+          supabase.auth.signInWithPassword({ email: email.trim(), password }),
+        )
+        if (error) setMsg({ kind: 'error', text: error.message })
+      }
+    } catch {
+      // The request never finished. Show it instead of spinning forever.
+      setMsg({
+        kind: 'error',
+        text: 'Could not reach the server. Check your connection and try again. If you were creating an account, try signing in, because it may have worked.',
       })
-      if (error) setMsg({ kind: 'error', text: error.message })
-      else if (!data.session)
-        setMsg({ kind: 'info', text: 'Account created. Check your email to confirm it, then sign in.' })
-    } else {
-      const { error } = await supabase.auth.signInWithPassword({ email: email.trim(), password })
-      if (error) setMsg({ kind: 'error', text: error.message })
+    } finally {
+      setBusy(false)
     }
-    setBusy(false)
   }
 
   return (

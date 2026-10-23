@@ -28,12 +28,21 @@ export default function App() {
 
   useEffect(() => {
     if (!configured) return
-    supabase.auth.getSession().then(({ data }) => {
-      setSession(data.session)
-      setReady(true)
-    })
+    // If the session check hangs, show the sign-in screen after 8 seconds instead of a blank page.
+    const timer = setTimeout(() => setReady(true), 8000)
+    supabase.auth
+      .getSession()
+      .then(({ data }) => setSession(data.session))
+      .catch(() => {})
+      .finally(() => {
+        clearTimeout(timer)
+        setReady(true)
+      })
     const { data } = supabase.auth.onAuthStateChange((_event, s) => setSession(s))
-    return () => data.subscription.unsubscribe()
+    return () => {
+      clearTimeout(timer)
+      data.subscription.unsubscribe()
+    }
   }, [])
 
   if (!configured) return <SetupNeeded />
