@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react'
 import { supabase } from '../supabase'
 import type { Family, Member } from '../types'
 
-const DOTS = ['bg-brand text-white', 'bg-sun text-ink', 'bg-mint text-ink', 'bg-coral text-white']
-
 export default function Home({ family, userId }: { family: Family; userId: string }) {
   const [members, setMembers] = useState<Member[]>([])
   const [error, setError] = useState('')
@@ -43,21 +41,22 @@ export default function Home({ family, userId }: { family: Family; userId: strin
 
   return (
     <div className="flex flex-col gap-5">
-      <header>
-        <p className="font-semibold text-ink/70">{firstName ? `Hi ${firstName}` : 'Hi there'}</p>
-        <h1 className="font-display text-3xl font-bold leading-tight">{family.name}</h1>
+      <header className="flex flex-col gap-1">
+        <p className="eyebrow">Family space</p>
+        <h1 className="font-display text-2xl font-extrabold leading-tight">{family.name}</h1>
+        <p className="text-muted">{firstName ? `Welcome back, ${firstName}.` : 'Welcome back.'}</p>
       </header>
 
       <section className="card flex flex-col gap-3">
-        <h2 className="font-display text-xl font-bold">Invite your cousins</h2>
-        <p className="text-sm text-ink/70">
+        <h2 className="font-display text-lg font-bold">Invite your cousins</h2>
+        <p className="text-sm text-muted">
           They create an account, then enter this code. Only people with the code can join.
         </p>
-        <p className="select-all rounded-xl border-2 border-dashed border-ink bg-paper py-3 text-center font-display text-3xl font-bold tracking-widest">
+        <p className="select-all rounded-[var(--radius-ctl)] border border-dashed border-line bg-surface-2 py-3 text-center font-mono text-2xl font-semibold tracking-[0.25em] text-accent-text">
           {code}
         </p>
         <div className="grid grid-cols-2 gap-3">
-          <button className="btn btn-sun" onClick={copy}>
+          <button className="btn btn-primary" onClick={copy}>
             {copied ? 'Copied' : 'Copy invite'}
           </button>
           {'share' in navigator && (
@@ -68,25 +67,27 @@ export default function Home({ family, userId }: { family: Family; userId: strin
         </div>
       </section>
 
-      <section className="card flex flex-col gap-3">
-        <h2 className="font-display text-xl font-bold">
-          Family members {members.length > 0 && <span className="text-ink/60">({members.length})</span>}
+      <section className="card flex flex-col gap-2">
+        <h2 className="font-display text-lg font-bold">
+          Members {members.length > 0 && <span className="text-muted">({members.length})</span>}
         </h2>
-        {error && <p className="text-sm font-bold text-coral">{error}</p>}
-        <ul className="flex flex-col gap-2">
-          {members.map((m, i) => {
+        {error && <p className="text-sm font-bold text-danger">{error}</p>}
+        <ul className="divide-y divide-line">
+          {members.map((m) => {
             const name = m.profiles?.display_name || 'Someone'
             return (
-              <li key={m.user_id} className="flex min-h-12 items-center gap-3">
+              <li key={m.user_id} className="flex min-h-14 items-center gap-3">
                 <span
-                  className={`flex size-10 flex-none items-center justify-center rounded-full border-2 border-ink font-display text-lg font-bold ${DOTS[i % DOTS.length]}`}
+                  className="flex size-10 flex-none items-center justify-center rounded-[var(--radius-avatar)] bg-accent-soft font-display text-base font-bold text-accent-text"
                   aria-hidden="true"
                 >
                   {name.charAt(0).toUpperCase()}
                 </span>
-                <span className="min-w-0 flex-1 truncate font-bold">{name}</span>
+                <span className="min-w-0 flex-1 truncate font-semibold">{name}</span>
                 {m.role === 'owner' && (
-                  <span className="rounded-full bg-ink px-2 py-0.5 text-xs font-bold text-white">Owner</span>
+                  <span className="rounded-[var(--radius-ctl)] bg-accent-soft px-2 py-0.5 text-xs font-bold text-accent-text">
+                    Owner
+                  </span>
                 )}
               </li>
             )

@@ -52,17 +52,15 @@ export default function Shell({ family, userId }: { family: Family; userId: stri
 
       <nav
         aria-label="Main"
-        className="fixed inset-x-0 bottom-0 border-t-2 border-ink bg-white pb-[env(safe-area-inset-bottom)]"
+        className="fixed inset-x-0 bottom-0 border-t border-line bg-surface pb-[env(safe-area-inset-bottom)]"
       >
-        <div className="mx-auto grid max-w-xl grid-cols-5 gap-1 px-2 py-2">
+        <div className="mx-auto grid max-w-xl grid-cols-5 gap-1 px-2 py-1.5">
           {TABS.map((t) => (
             <button
               key={t.id}
               onClick={() => setTab(t.id)}
               aria-current={tab === t.id ? 'page' : undefined}
-              className={`flex min-h-14 flex-col items-center justify-center gap-0.5 rounded-xl border-2 text-[11px] font-bold leading-tight ${
-                tab === t.id ? 'border-ink bg-sun' : 'border-transparent text-ink/70'
-              }`}
+              className={`tab ${tab === t.id ? 'tab-active' : ''}`}
             >
               <Icon name={t.icon} />
               {t.label}

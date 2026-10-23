@@ -2,7 +2,7 @@ import { useState, type FormEvent } from 'react'
 import { supabase } from '../supabase'
 import Logo from './Logo'
 
-// Gives up after 20 seconds so the button never stays stuck on "One moment...".
+// Gives up after 20 seconds so the button never stays stuck.
 function withTimeout<T>(p: PromiseLike<T>, ms = 20000): Promise<T> {
   return new Promise<T>((resolve, reject) => {
     const id = setTimeout(() => reject(new Error('timeout')), ms)
@@ -20,10 +20,11 @@ function withTimeout<T>(p: PromiseLike<T>, ms = 20000): Promise<T> {
 }
 
 export default function AuthScreen() {
-  const [mode, setMode] = useState<'in' | 'up'>('in')
+  const [mode, setMode] = useState<'in' | 'up'>('up')
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
   const [busy, setBusy] = useState(false)
   const [msg, setMsg] = useState<{ kind: 'error' | 'info'; text: string } | null>(null)
 
@@ -61,16 +62,17 @@ export default function AuthScreen() {
   }
 
   return (
-    <div className="mx-auto flex min-h-full max-w-md flex-col justify-center gap-6 p-6">
-      <div>
-        <Logo big />
-        <p className="mt-2 text-center font-semibold text-ink/70">Our private family space</p>
+    <div className="mx-auto flex min-h-full max-w-md flex-col justify-center gap-8 p-6">
+      <div className="flex flex-col gap-3">
+        <Logo />
+        <h1 className="font-display text-3xl font-extrabold leading-tight">Stay connected.</h1>
+        <p className="text-lg text-muted">Your people, your moments, all in one place.</p>
       </div>
 
-      <form onSubmit={submit} className="card flex flex-col gap-4">
-        <h1 className="font-display text-2xl font-bold">
-          {mode === 'in' ? 'Welcome back' : 'Join the fun'}
-        </h1>
+      <form onSubmit={submit} className="card flex flex-col gap-4 p-5">
+        <h2 className="font-display text-xl font-bold">
+          {mode === 'in' ? 'Welcome back' : 'Create your account'}
+        </h2>
 
         {mode === 'up' && (
           <div>
@@ -104,12 +106,22 @@ export default function AuthScreen() {
         </div>
 
         <div>
-          <label className="label" htmlFor="password">
-            Password
-          </label>
+          <div className="flex items-baseline justify-between">
+            <label className="label" htmlFor="password">
+              Password
+            </label>
+            <button
+              type="button"
+              className="min-h-8 px-1 text-sm font-bold text-accent-text underline underline-offset-2"
+              aria-pressed={showPassword}
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? 'Hide' : 'Show'}
+            </button>
+          </div>
           <input
             id="password"
-            type="password"
+            type={showPassword ? 'text' : 'password'}
             className="input"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -120,25 +132,25 @@ export default function AuthScreen() {
         </div>
 
         {msg && (
-          <p role="status" className={`text-sm font-bold ${msg.kind === 'error' ? 'text-coral' : 'text-mint'}`}>
+          <p role="status" className={`text-sm font-bold ${msg.kind === 'error' ? 'text-danger' : 'text-ok'}`}>
             {msg.text}
           </p>
         )}
 
         <button className="btn btn-primary w-full" disabled={busy}>
-          {busy ? 'One moment...' : mode === 'in' ? 'Sign in' : 'Create account'}
+          {busy ? 'Please wait...' : mode === 'in' ? 'Sign in' : 'Get started'}
         </button>
       </form>
 
       <button
         type="button"
-        className="min-h-12 font-bold underline underline-offset-4"
+        className="link"
         onClick={() => {
           setMode(mode === 'in' ? 'up' : 'in')
           setMsg(null)
         }}
       >
-        {mode === 'in' ? 'New here? Create an account' : 'Already have an account? Sign in'}
+        {mode === 'in' ? 'New to Cznnect? Join Cznnect' : 'Already a member? Sign in'}
       </button>
     </div>
   )

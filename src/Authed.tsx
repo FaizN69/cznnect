@@ -36,7 +36,7 @@ export default function Authed({ userId }: { userId: string }) {
         <div className="card">
           <h1 className="font-display text-2xl font-bold">Could not load your family</h1>
           <p className="mt-2 text-sm">{error}</p>
-          <p className="mt-2 text-sm text-ink/70">
+          <p className="mt-2 text-sm text-muted">
             If this mentions a missing table, run supabase/01_accounts.sql in Supabase first.
           </p>
           <button className="btn btn-primary mt-4 w-full" onClick={load}>

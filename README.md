@@ -57,3 +57,7 @@ npm run typecheck
 ## Next
 
 Stage 2 is the shared family tree.
+
+## Themes
+
+Cznnect has two looks: **Light** (default) and **Tactical Dark**. Pick one, or follow the phone's setting, in My Profile > Appearance. The choice is saved on the device. Colors and shapes for both live as tokens at the top of `src/index.css`, and the switching code is `src/theme.ts`.

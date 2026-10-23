@@ -31,20 +31,21 @@ export default function FamilySetup({ onDone }: { onDone: () => void }) {
 
   return (
     <div className="mx-auto flex min-h-full max-w-md flex-col justify-center gap-6 p-6">
-      <div>
-        <Logo big />
-        <p className="mt-2 text-center font-semibold text-ink/70">Start or join your family space</p>
+      <div className="flex flex-col gap-2">
+        <Logo />
+        <h1 className="font-display text-2xl font-extrabold leading-tight">Set up your family space</h1>
+        <p className="text-muted">Start a new space, or join one you have been invited to.</p>
       </div>
 
       {error && (
-        <p role="alert" className="text-center text-sm font-bold text-coral">
+        <p role="alert" className="text-sm font-bold text-danger">
           {error}
         </p>
       )}
 
-      <form onSubmit={create} className="card flex flex-col gap-3">
-        <h2 className="font-display text-xl font-bold">Start our family space</h2>
-        <p className="text-sm text-ink/70">You will get an invite code to send to your cousins.</p>
+      <form onSubmit={create} className="card flex flex-col gap-3 p-5">
+        <h2 className="font-display text-lg font-bold">Start a family space</h2>
+        <p className="text-sm text-muted">You will get an invite code to share with your cousins.</p>
         <div>
           <label className="label" htmlFor="family-name">
             Family name
@@ -58,20 +59,20 @@ export default function FamilySetup({ onDone }: { onDone: () => void }) {
             required
           />
         </div>
-        <button className="btn btn-sun w-full" disabled={busy !== ''}>
-          {busy === 'create' ? 'Creating...' : 'Create'}
+        <button className="btn btn-primary w-full" disabled={busy !== ''}>
+          {busy === 'create' ? 'Creating...' : 'Create space'}
         </button>
       </form>
 
-      <form onSubmit={join} className="card flex flex-col gap-3">
-        <h2 className="font-display text-xl font-bold">Join with an invite code</h2>
+      <form onSubmit={join} className="card flex flex-col gap-3 p-5">
+        <h2 className="font-display text-lg font-bold">Join with an invite code</h2>
         <div>
           <label className="label" htmlFor="code">
             Invite code
           </label>
           <input
             id="code"
-            className="input uppercase tracking-widest"
+            className="input font-mono uppercase tracking-widest"
             placeholder="A1B2C3D4"
             value={code}
             onChange={(e) => setCode(e.target.value)}
@@ -80,16 +81,12 @@ export default function FamilySetup({ onDone }: { onDone: () => void }) {
             required
           />
         </div>
-        <button className="btn btn-primary w-full" disabled={busy !== ''}>
+        <button className="btn btn-plain w-full" disabled={busy !== ''}>
           {busy === 'join' ? 'Joining...' : 'Join'}
         </button>
       </form>
 
-      <button
-        type="button"
-        className="min-h-12 font-bold underline underline-offset-4"
-        onClick={() => supabase.auth.signOut()}
-      >
+      <button type="button" className="link" onClick={() => supabase.auth.signOut()}>
         Sign out
       </button>
     </div>
