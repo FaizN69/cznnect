@@ -3,6 +3,7 @@ import type { Family } from '../types'
 import Home from '../pages/Home'
 import Profile from '../pages/Profile'
 import ComingSoon from '../pages/ComingSoon'
+import Tree from '../pages/Tree'
 import { Icon, type IconName } from './Icons'
 
 type Tab = 'home' | 'tree' | 'explore' | 'plans' | 'me'
@@ -31,14 +32,7 @@ export default function Shell({
     <div className="mx-auto min-h-full max-w-xl">
       <main className="p-4 pb-32 pt-[max(1rem,env(safe-area-inset-top))]">
         {tab === 'home' && <Home family={family} userId={userId} onFamilyChanged={onFamilyChanged} />}
-        {tab === 'tree' && (
-          <ComingSoon
-            title="Family Tree"
-            stage={2}
-            blurb="One tree for the whole family, built by all of you."
-            items={['Add grandparents, parents, aunts, uncles and cousins', 'Zoom, search and generation views', 'No duplicate relatives']}
-          />
-        )}
+        {tab === 'tree' && <Tree family={family} userId={userId} />}
         {tab === 'explore' && (
           <ComingSoon
             title="Explore"

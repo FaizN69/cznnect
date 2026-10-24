@@ -288,3 +288,41 @@
     color: var(--accent-text);
   }
 }
+
+/* Family tree drawing */
+.tnode-rect {
+  fill: var(--surface);
+  stroke: var(--line);
+  stroke-width: 1.5;
+  rx: var(--radius-ctl);
+  ry: var(--radius-ctl);
+}
+.tnode-me {
+  fill: var(--accent-soft);
+  stroke: var(--accent);
+}
+.tnode-sel {
+  stroke: var(--accent);
+  stroke-width: 3;
+}
+.tnode-gone {
+  stroke-dasharray: 4 3;
+}
+g[data-pid] {
+  cursor: pointer;
+  outline: none;
+}
+g[data-pid]:focus-visible .tnode-rect {
+  stroke: var(--accent);
+  stroke-width: 3;
+}
+
+textarea.input {
+  min-height: 6rem;
+  padding: 0.75rem 0.875rem;
+  resize: vertical;
+}
+
+input[type="checkbox"] {
+  accent-color: var(--accent);
+}
