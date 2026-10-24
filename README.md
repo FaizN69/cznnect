@@ -27,6 +27,7 @@ docs/PLAN.md              architecture, data model, stages
 3. SQL Editor > New query. Open `supabase/01_accounts.sql` in this repo, copy all of it, paste it in, and press **Run**. It should say success.
 4. Project Settings > API: copy the **Project URL** and the **anon / publishable key**.
 5. Run `supabase/02_member_management.sql` the same way (new query, paste, Run). It adds the owner tools: remove a member, leave a family, and get a new invite code.
+6. Run `supabase/03_family_settings.sql` the same way. It enables owner-only family-name changes and checks permissions in the database.
 
 **2. Put the keys in the app**
 
@@ -57,7 +58,7 @@ npm run typecheck
 
 ## Who can do what
 
-- **Owner** (the person who created the family): remove members, get a new invite code. The owner cannot be removed and cannot leave.
+- **Owner** (the person who created the family): rename the family, remove members, and get a new invite code. The owner cannot be removed and cannot leave.
 - **Member**: see everyone in the family, edit their own profile, leave the family.
 - Adding people is done with the invite code. A removed person can only rejoin with the code, so get a new one after removing someone.
 
