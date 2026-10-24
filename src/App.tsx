@@ -12,10 +12,13 @@ function SetupNeeded() {
     <div className="mx-auto flex min-h-full max-w-md flex-col justify-center gap-6 p-6">
       <Logo big />
       <div className="card">
-        <h1 className="font-display text-2xl font-bold">Almost there</h1>
-        <p className="mt-2">
-          Open <b>src/config.ts</b> and paste in your Supabase project URL and anon key. The steps
-          are in the README.
+        <p className="eyebrow">Service notice</p>
+        <h1 className="mt-2 font-display text-2xl font-bold">Cznnect is under maintenance</h1>
+        <p className="mt-3 text-muted">
+          We’re working on updates to improve your experience. Please check back later.
+        </p>
+        <p className="mt-4 text-sm text-muted">
+          Thanks for your patience.
         </p>
       </div>
     </div>
