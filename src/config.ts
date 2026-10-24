@@ -3,4 +3,5 @@
 // in supabase/01_accounts.sql, not by hiding this key.
 export const SUPABASE_URL = 'sb_publishable_zs5gX4aC4D-3wCZ4DChDpg_klTDPoB4'
 export const SUPABASE_ANON_KEY = 'sb_publishable_zs5gX4aC4D-3wCZ4DChDpg_klTDPoB4'
+
 export const configured = SUPABASE_URL.startsWith('https://') && SUPABASE_ANON_KEY.length > 20
